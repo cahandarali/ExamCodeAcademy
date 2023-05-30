@@ -1,0 +1,56 @@
+﻿@using Exam.ViewModels;
+@model PaginateVM<Setting>
+@{
+    int count = 0;
+}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Basic Table</h4>
+            
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Key</th>
+                            <th>Value</th>
+                            <th>Settings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Item)
+                        {
+                            count++;
+                            <tr>
+                                <td>@count</td>
+                                <td>@item.Key</td>
+                                <td>@item.Value</td>
+
+                                <td>
+                                    <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning"><i class="mdi mdi-pencil"></i> </a>
+                                    <a class="btn btn-success"><i class="mdi mdi-open-in-new"></i> </a>
+
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+                @if (Model.CurrentPage != 0)
+                {
+                    <a class="btn btn-secondary mx-1" asp-action="index" asp-controller="CustomSetting" asp-route-page="@(Model.CurrentPage-1)">Previous</a>
+                }
+                @for (int i = 0; i < @Model.TotalPage; i++)
+                {
+                    <a class="btn btn-secondary mx-1 @(i==Model.CurrentPage?"disabled":"")" asp-action="index" asp-controller="CustomSetting" asp-route-page="@i">@(i + 1)</a>
+                }
+                @if (Model.CurrentPage + 1 < Model.TotalPage)
+                {
+                    <a class="btn btn-secondary mx-1" asp-action="index" asp-controller="CustomSetting" asp-route-page="@(Model.CurrentPage+1)">Next</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
